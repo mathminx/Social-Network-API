@@ -1,29 +1,64 @@
-const { Schema, model } = require('mongoose');
+const { Schema, Types, model } = require('mongoose');
 
-// Schema to create a thought model
-const thoughtSchema = new Schema(
+// Schema for the reaction field subdocument
+// in the thought model
+const reactionSchema = new Schema(
   {
-    id: {
-      type: Number,
-      required: true,
+    reactionId: {
+      type: Schema.Types.ObjectId,
+      default: () => new Types.ObjectId(),
     },
-    thoughtText: {
+    reactionBody: {
       type: String,
       required: true,
+      max_length: 280,
     },
     username: {
       type: String,
       required: true,
     },
-  },
-  {
-    toJSON: {
-      virtuals: true,
+    createdAt: {
+      type: Date,
+      default: Date.now,
     },
-    id: false,
   }
 );
 
-const Thought = model('thought', thoughtSchema);
+// Schema for a thought
+const thoughtSchema = new Schema(
+  {
+    thoughtText: {
+      type: String,
+      required: true,
+      minLength: 1,
+      maxLength: 280,
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+    username: {
+      type: String,
+      required: true,
+    },
+    reaction: reactionSchema,
+  }
+);
 
-module.exports = Thought;
+// Virtual that retrieves the length of the thought's reactions array field on query
+thoughtSchema.virtual('reactionCount').get(function () {
+  return this.reactions.length;
+});
+
+// This custom method formats the timestamp
+reactionSchema.methods.formatTimestamp = function () {
+  const formattedDate = toDateString(this.createdAt);
+  const formattedTime = toTimeString(this.createdAt);
+  return formattedDate, formattedTime;
+};
+
+// Initialize the Thought model
+const Thought = model('thought', thoughtSchema);
+const Reaction = model("reaction", reactionSchema);
+
+module.exports = Thought, Reaction;
