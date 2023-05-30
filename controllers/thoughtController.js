@@ -66,7 +66,6 @@ module.exports = {
 
   // Delete a thought
   async deleteThought(req, res) {
-    console.log(req.params);
     try {
       const thought = await Thought.findOneAndDelete({ 
         _id: req.params.thoughtId });
@@ -95,8 +94,6 @@ module.exports = {
 
   // Add a reaction to a thought
   async addReaction(req, res) {
-    console.log(req.params.thoughtId);
-    console.log("req.body", req.body);
     try {
       const newReaction = await Thought.findOneAndUpdate(
         {_id: req.params.thoughtId },
@@ -107,7 +104,6 @@ module.exports = {
       if (!newReaction) {
         return res.status(404).json({message: 'No thought found with that id!'});
       }
-      console.log("it didn't shit the bed");
       return res.status(200).json({ message:'Reaction added!' });
     }
     catch (err) {
