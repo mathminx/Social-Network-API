@@ -19,4 +19,3 @@ seedDB().then (() => {
   console.log("Done!");
 });
 
-
