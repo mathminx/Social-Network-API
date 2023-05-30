@@ -6,7 +6,7 @@ const reactionSchema = new Schema(
   {
     reactionId: {
       type: Schema.Types.ObjectId,
-      default: () => new Types.ObjectId(),
+      default: () => new Types.ObjectId,
     },
     reactionBody: {
       type: String,
@@ -21,7 +21,7 @@ const reactionSchema = new Schema(
       type: Date,
       default: Date.now,
     },
-  }
+  },
 );
 
 // Schema for a thought
@@ -32,6 +32,7 @@ const thoughtSchema = new Schema(
       required: true,
       minLength: 1,
       maxLength: 280,
+      required: true,
     },
     createdAt: {
       type: Date,
@@ -41,7 +42,13 @@ const thoughtSchema = new Schema(
       type: String,
       required: true,
     },
-    reaction: reactionSchema,
+    reactions: [reactionSchema],
+  },
+  {
+    toJSON: {
+      virtuals: true,
+    },
+    id: false,
   }
 );
 
@@ -51,10 +58,8 @@ thoughtSchema.virtual('reactionCount').get(function () {
 });
 
 // This custom method formats the timestamp
-reactionSchema.methods.formatTimestamp = function () {
-  const formattedDate = toDateString(this.createdAt);
-  const formattedTime = toTimeString(this.createdAt);
-  return formattedDate, formattedTime;
+thoughtSchema.methods.formatTimestamp = function () {
+  return toDateString(this.createdAt);
 };
 
 // Initialize the Thought model
