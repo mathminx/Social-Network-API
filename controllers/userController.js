@@ -52,7 +52,6 @@ module.exports = {
       }
       res.status(200).json({message: `User updated!`});
     } catch (err) {
-      console.log(err);
       return res.status(500).json(err);
     }
   },
@@ -61,20 +60,17 @@ module.exports = {
   async deleteUser(req, res) {
     try {
       const user = await User.deleteOne({ _id: req.params.userId });
-      console.log(req.params.userId);
       if (!user) {
         return res.status(404).json({ message: 'No such user exists' });
       }
       res.json({ message: 'User successfully deleted' });
     } catch (err) {
-      console.log(err);
       res.status(500).json(err);
     }
   },
 
   // Add a friend to a user's friend list
   async addFriend(req, res) {
-    console.log(req.params)
     try {
       const user = await User.findOneAndUpdate(
         { _id: req.params.userId },
@@ -89,7 +85,6 @@ module.exports = {
       res.status(200).json({message: `Friend added to user's friend list!`});
     } 
     catch (err) {
-      console.log(err);
       return res.status(500).json(err);
     }
   },
@@ -97,7 +92,6 @@ module.exports = {
   
   // Add a thought to a user's thought list
   async addThoughtToUser(req, res) {
-    console.log(req.params)
     try {
       const user = await User.findOneAndUpdate(
         { _id: req.params.userId },
@@ -111,7 +105,6 @@ module.exports = {
       }
       res.status(200).json({message: `Thought added to user's thought list!`});
     } catch (err) {
-      console.log(err);
       return res.status(500).json(err);
     }
   },
@@ -119,7 +112,6 @@ module.exports = {
 
   // Delete a friend from a user's friend list
   async deleteFriend(req, res) {
-    console.log(req.params)
     try {
       const user = await User.findOneAndUpdate(
         { _id: req.params.userId },
@@ -133,7 +125,6 @@ module.exports = {
       }
       res.status(200).json({message: `Friend deleted from user's friend list!`});
     } catch (err) {
-      console.log(err);
       return res.status(500).json(err);
     }
   }
