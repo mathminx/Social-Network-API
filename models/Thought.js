@@ -1,7 +1,6 @@
 const { Schema, Types, model } = require('mongoose');
+const dayJs = require("dayjs");
 
-// Schema for the reaction field subdocument
-// in the thought model
 const reactionSchema = new Schema(
   {
     reactionId: {
@@ -20,6 +19,7 @@ const reactionSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
+      get: formatDate,
     },
   },
 );
@@ -32,11 +32,11 @@ const thoughtSchema = new Schema(
       required: true,
       minLength: 1,
       maxLength: 280,
-      required: true,
     },
     createdAt: {
       type: Date,
       default: Date.now,
+      get: formatDate,
     },
     username: {
       type: String,
@@ -46,7 +46,7 @@ const thoughtSchema = new Schema(
   },
   {
     toJSON: {
-      virtuals: true,
+      virtual: true, getters: true,
     },
     id: false,
   }
@@ -58,11 +58,11 @@ thoughtSchema.virtual('reactionCount').get(function () {
 });
 
 // This custom method formats the timestamp
-thoughtSchema.methods.formatTimestamp = function () {
-  return toDateString(this.createdAt);
+function formatDate(createdAt) {
+  return dayJs(createdAt).format("MMM D, YYYY");
 };
 
-// Initialize the Thought model
+// Initialize the Thought and Reaction models
 const Thought = model('thought', thoughtSchema);
 const Reaction = model("reaction", reactionSchema);
 
