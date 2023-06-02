@@ -18,23 +18,9 @@ Run `npm install` to install the dependencies; then, run `npm start` to invoke t
 
 ## Usage
 
-WHEN I open API GET routes in Insomnia for users and thoughts
-THEN the data for each of these routes is displayed in a formatted JSON
-WHEN I test API POST, PUT, and DELETE routes in Insomnia
-`PUT` to update a thought by its `_id`
-
-* `DELETE` to remove a thought by its `_id`
-
-THEN I am able to successfully create, update, and delete users and thoughts in my database. Remove a user's associated thoughts when deleted. push the created thought's `_id` to the associated user's `thoughts` array field
-WHEN I test API POST and DELETE routes in Insomnia
-THEN I am able to successfully create and delete reactions to thoughts and add and remove friends to a user’s friend list
-`POST` to create a reaction stored in a single thought's `reactions` array field
-
-* `DELETE` to pull and remove a reaction by the reaction's `reactionId` value
-
 Requests to the application's API routes should be structued as follows:
 
-**Users:
+**Users:**
 *  GET all users: `localhost:3001/api/users`
 *  GET a single user: `localhost:3001/api/users`
 *  POST (add) a user: `localhost:3001/api/users`   with body {"username": "*user's user name*", "email": "*user's email address*"}
@@ -43,14 +29,14 @@ Requests to the application's API routes should be structued as follows:
 *  DELETE a friend from a user: `localhost:3001/api/users/*user id*/friends/*friend's user id*` 
 *  DELETE a user and that user's associated thoughts: `localhost:3001/api/users/*user id* 
 
-**Thoughts:
+**Thoughts:**
 *  GET all thoughts: `localhost:3001/api/thoughts`
 *  GET a single thought: `localhost:3001/api/thoughts/*thought id*`
 *  POST (add) a thought: `localhost:3001/api/thoughts` with {"thoughtText": "*thought content*", "username": "*user's user name*" } 
 *  PUT (update) a thought: `localhost:3001/api/thoughts/*thought id*`  with body {"thoughtText": "*thought content*"}
 *  DELETE a thought: `localhost:3001/api/thoughts/*thought id*
 
-**Reactions:
+**Reactions:**
 *  POST (add) a reaction to a thought: localhost:3001/api/thoughts/*thought id*/reactions  with body {"reactionBody": "*reaction content*", "username": "*user's user name*"
 
 
