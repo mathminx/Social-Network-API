@@ -60,15 +60,23 @@ module.exports = {
   // Delete a user 
   async deleteUser(req, res) {
     try {
-      const user = await User.deleteOne({ _id: req.params.userId });
+      const user = await User.findOneAndDelete({ _id: req.params.userId })
       if (!user) {
-        return res.status(404).json({ message: 'No such user exists' });
+        return res.status(404).json({ message: 'No user with that ID' })
       }
-      res.json({ message: 'User successfully deleted' });
-    } catch (err) {
-      res.status(500).json(err);
+      const userName = user.username;
+      console.log(userName);
+      const thoughtsToDelete = await Thought.deleteMany({username: userName})
+      if (!thoughtsToDelete) {
+        return;
+      }
+      res.status(200).json({message: `User ${userName} deleted!`});
+    }
+    catch (err) {
+      return res.status(500).json(err);
     }
   },
+  
 
   // Add a friend to a user's friend list
   async addFriend(req, res) {
