@@ -18,7 +18,7 @@ Run `npm install` to install the dependencies; then, run `npm start` to invoke t
 
 ## Usage
 
-Requests to the application's API routes should be structued as follows:
+Requests to the application's API routes should be structured as follows:
 
 **Users:**
 *  GET all users: `localhost:3001/api/users`
